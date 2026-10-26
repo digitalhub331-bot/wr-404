@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wr-404-static-v1';
+const CACHE_NAME = 'wr-404-static-v2';
 const FILES = ['./', './index.html', './style.css', './script.js', './logo.svg', './manifest.webmanifest'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(FILES))));
 self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('wr-404-') && key !== CACHE_NAME).map(key => caches.delete(key))))));
@@ -8,3 +8,4 @@ self.addEventListener('fetch', event => {
     const copy = response.clone(); caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy)); return response;
   }).catch(() => caches.match('./index.html'))));
 });
+
