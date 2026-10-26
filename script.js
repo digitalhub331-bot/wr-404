@@ -31,13 +31,17 @@
       'Life can matter through the people we care for, what we create, and what we choose to learn. It does not need to feel meaningful every moment. What part of life feels most important to you right now?',
       'There may not be one answer that fits everyone. Meaning often grows from values, relationships, and small choices. What has felt meaningful to you lately?'
     ]],
-    [/\b(overwhelm|too much to do|too many demands)\b/, [
+    [/\b(overwhelm\w*|too much to do|too many demands)\b/, [
       'That sounds heavy. When demands compete, it helps to separate what is urgent from what can wait. Which one thing is creating the most pressure right now?',
       'It sounds like too much is landing at once. Pick one thing you can influence today; the rest can be sorted after. What feels most urgent?'
     ]],
     [/\b(sad|unhappy|down|heartbroken|grief|grieving)\b/, [
       'I’m sorry this is weighing on you. You don’t have to force yourself to feel differently. Would it help to talk about what happened, or focus on getting through the next hour?',
       'That sounds painful. For now, try naming what hurts most without judging yourself for it. What happened?'
+    ]],
+    [/\b(happy|happier|excited|proud|good mood|grateful)\b/, [
+      'That sounds like a good moment. What’s behind it?',
+      'I’m glad something is going well. What do you want to remember about today?'
     ]],
     [/\b(anxious|anxiety|panic|nervous|worried|worry)\b/, [
       'Anxiety can make a possible outcome feel certain. What do you know for sure, and what are you afraid might happen? Separating those can make the next step clearer.',
@@ -47,7 +51,7 @@
       'Stress often points to a demand that feels bigger than your current resources. What part can be reduced, delayed, or shared?',
       'You sound under pressure. One useful first move is to make the next task smaller—what is the first five-minute step?'
     ]],
-    [/\b(motivat|can't keep going|cannot keep going|give up)\b/, [
+    [/\b(motivat\w*|can't keep going|cannot keep going|give up)\b/, [
       'Motivation is unreliable; a small repeatable action is steadier. What is the smallest useful step you can take today?',
       'You may not need a big burst of motivation—just a clear next move. Choose one action that takes ten minutes or less.'
     ]],
@@ -55,7 +59,7 @@
       'A goal becomes easier to act on when it is specific and close enough to start. What would progress look like by the end of this week?',
       'Let’s make the goal concrete: what is the next visible action, and what might get in its way?'
     ]],
-    [/\b(procrastinat|putting it off|can't start|cannot start)\b/, [
+    [/\b(procrastinat\w*|putting it off|can't start|cannot start)\b/, [
       'Avoidance often grows when a task feels unclear or uncomfortable. Set a five-minute timer and do only the first step. What task are you avoiding?',
       'Make the start almost too small to refuse: open the document, write one line, or gather one item. Which task needs that first step?'
     ]],
@@ -91,11 +95,11 @@
       'Poor sleep can make everyday problems feel sharper. A steady wind-down and a consistent wake time may help. If it persists or affects your health, speak with a qualified professional.',
       'For tonight, reduce stimulation and give yourself a simple wind-down routine. If sleep problems keep affecting your day, consider getting professional advice.'
     ]],
-    [/\b(habit|discipline|routine|time management|focus|concentration|procrastinat)\b/, [
+    [/\b(habit|discipline|routine|time management|focus|concentration|procrastinat\w*)\b/, [
       'Make the habit easier to repeat: attach it to something you already do, and keep the first version small. What habit are you trying to build?',
       'Consistency improves when the environment helps. Remove one obstacle and decide exactly when you’ll begin.'
     ]],
-    [/\b(overthink|overthinking|can't stop thinking|cannot stop thinking|ruminat)\b/, [
+    [/\b(overthink\w*|can't stop thinking|cannot stop thinking|ruminat\w*)\b/, [
       'Overthinking can resemble problem-solving while repeating the same loop. Write down the worry, what you know for sure, and one action within your control.',
       'Try asking: “Is there a decision to make, or am I replaying uncertainty?” If there is a decision, choose the next small step.'
     ]],
@@ -182,8 +186,10 @@
         const angles = [' A useful next step is to name the part you can influence.', ' You could also look at what you need most in this situation.', ' Try focusing on one choice you can make today.'];
         answer += angles[recentReplies.length % angles.length];
       }
-      recentReplies.push(answer); if (recentReplies.length > 12) recentReplies.shift(); return answer;
+      return answer;
     }
+    const feeling = m.match(/\b(?:i feel|i'm feeling|i am feeling)\s+([a-z][a-z -]{1,35})/);
+    if (feeling) return `You’re feeling ${feeling[1].trim()}. That deserves a little attention. What happened just before it came up?`;
     if (/\b(tell me about|explain|what is|how do i|how can i|help me with|talk about)\b/.test(m)) return 'I can help think that through. Tell me which part you want to understand or change, and I’ll keep the answer practical.';
     return 'I want to understand what you mean before I advise. What feels like the main issue here?';
   }
@@ -191,7 +197,10 @@
     addMessage('user', message);
     const memory = classifyMemory(message);
     const saveButton = memory ? `<button class="save-suggestion" type="button" data-save-note="${safeText(memory[0])}" data-topic="${safeText(memory[1])}" data-content="${safeText(message)}">SAVE THIS TO MEMORY LOG</button>` : '';
-    window.setTimeout(() => addMessage('bot', chooseReply(message), saveButton), 260);
+    let answer = chooseReply(message);
+    if (recentReplies.includes(answer)) answer = 'I answered that a moment ago. Would an example, another perspective, or a practical next step help more?';
+    recentReplies.push(answer); if (recentReplies.length > 12) recentReplies.shift();
+    window.setTimeout(() => addMessage('bot', answer, saveButton), 260);
   }
 
   chatForm.addEventListener('submit', event => {
@@ -243,3 +252,4 @@
   renderMemories();
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
 })();
+
