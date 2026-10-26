@@ -8,7 +8,8 @@ WR-404 is a free, static reflection chatbot. It uses browser-side JavaScript res
 
 - `index.html` — page structure
 - `style.css` — responsive classified-document interface
-- `script.js` — chat replies, optional voice, and local memory log
+- `script-v2.js` — active chat replies, optional voice, and local memory log (versioned filename avoids stale browser caches)
+- `script.js` — earlier compatible copy
 - `logo.svg` — Quiet Signal mark
 - `service-worker.js` — caches app files for return visits while offline
 - `manifest.webmanifest` — installable web app metadata
@@ -36,3 +37,5 @@ The code includes a commented placeholder for a future AI connection. Never plac
 ## Safety note
 
 WR-404 is a supportive reflection tool, not medical, legal, financial, or professional advice. It does not diagnose or replace qualified support. In an immediate emergency, contact local emergency services or a trusted person.
+
+
