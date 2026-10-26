@@ -1,0 +1,9 @@
+{
+  "name": "WR-404 — Your thoughts, met with clarity.",
+  "short_name": "WR-404",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#090a0c",
+  "theme_color": "#090a0c",
+  "icons": [{"src":"logo.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
