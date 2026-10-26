@@ -1,5 +1,5 @@
-const CACHE_NAME = 'wr-404-static-v3';
-const FILES = ['./', './index.html', './style.css', './script.js', './logo.svg', './manifest.webmanifest'];
+const CACHE_NAME = 'wr-404-static-v4';
+const FILES = ['./', './index.html', './style.css', './script-v2.js', './logo.svg', './manifest.webmanifest'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting())));
 self.addEventListener('activate', event => event.waitUntil(Promise.all([
   caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('wr-404-') && key !== CACHE_NAME).map(key => caches.delete(key)))),
