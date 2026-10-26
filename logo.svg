@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title">
+  <title id="title">WR-404 Quiet Signal</title>
+  <rect x="2" y="2" width="92" height="92" rx="22" fill="#101316" stroke="#343b3e" stroke-width="2"/>
+  <path d="M48 17c-18 0-32 12-32 27 0 10 7 19 17 23l-3 13 15-8h3c18 0 32-12 32-28S66 17 48 17Z" fill="none" stroke="#e7eeeb" stroke-width="4" stroke-linejoin="round"/>
+  <circle cx="52" cy="44" r="6" fill="#8bd7c1"/>
+  <circle cx="52" cy="44" r="13" fill="none" stroke="#8bd7c1" stroke-opacity=".45" stroke-width="2"/>
+  <path d="M67 44h9" stroke="#8bd7c1" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
